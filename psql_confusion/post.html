@@ -1,0 +1,28 @@
+Mountain Lion - psql: could not connect to server: No such file or directory
+
+I'm in the process of installing postgres on my new laptop and ran into a snag that had me scratching my head. The install itself went without a hitch, but when trying to use the psql command from terminal, I got the below error:
+
+[bash]
+jarvis:~ john$ psql -U postgres
+psql: could not connect to server: No such file or directory
+     Is the server running locally and accepting
+     connections on Unix domain socket "/var/pgsql_socket/.s.PGSQL.5432"?
+[/bash]
+
+After some research, I learned that the Mountain Lion comes with psql and is located in a non-standard location. You can find it's location by typing which psql.
+
+[bash]
+jarvis:~ john$ which psql
+/usr/bin/psql
+[/bash]
+
+You can see it's pointing to /usr/bin/psql. Unfortunately, it needs to use the version of the command located at /Library/PostgreSQL/9.2/bin/psql.
+
+To fix this, you can make a PATH adjustment within your .bashrc file to point to the correct folder. You'll need to close and reopen terminal for the changes to take affect.
+
+[bash]
+PATH="/Library/PostgreSQL/9.2/bin:$PATH"
+export PATH=$PATH
+[/bash]
+
+Note that you need to prepend the correct postrgres path to the existing PATH variable to ensure it is used first.
